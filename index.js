@@ -1,17 +1,10 @@
-// Require express and body-parser
-const express = require("express")
-const bodyParser = require("body-parser")
+const express = require('express')
+const path = require('path')
+const PORT = process.env.PORT || 5000
 
-// Initialize express and define a port
-const app = express()
-const PORT = 3000
-
-// Tell express to use body-parser's JSON parsing
-app.use(bodyParser.json())
-
-// Start express on the defined port
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
-app.post("/hook", (req, res) => {
-  console.log(req.body) // Call your action on the request here
-  res.status(200).end() // Responding is important
-})
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
